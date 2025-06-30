@@ -1,4 +1,4 @@
-package com.zyuer.imagecloud.common;
+package com.zyuer.imagecloud.domain.vo;
 
 import com.zyuer.imagecloud.exception.ErrorCode;
 import lombok.Data;
