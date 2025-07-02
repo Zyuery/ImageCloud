@@ -1,4 +1,4 @@
-package com.zyuer.imagecloud.common;
+package com.zyuer.imagecloud.utils;
 
 
 import org.springframework.util.DigestUtils;

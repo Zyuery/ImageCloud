@@ -1,4 +1,4 @@
-package com.zyuer.imagecloud.domain.dto;
+package com.zyuer.imagecloud.domain.dto.User;
 
 import lombok.Data;
 

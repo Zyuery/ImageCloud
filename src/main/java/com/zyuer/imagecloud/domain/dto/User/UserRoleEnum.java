@@ -1,4 +1,4 @@
-package com.zyuer.imagecloud.domain.dto;
+package com.zyuer.imagecloud.domain.dto.User;
 
 import cn.hutool.core.util.ObjUtil;
 import lombok.Getter;
@@ -18,7 +18,7 @@ public enum UserRoleEnum {
     }
 
     //根据value获取enum枚举
-    public static UserRoleEnum getUserRoleEnum(String value) {
+    public static UserRoleEnum getEnumByValue(String value) {
         if(ObjUtil.isEmpty(value)){
             return null;
         }

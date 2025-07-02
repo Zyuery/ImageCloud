@@ -13,21 +13,28 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 mybatis-plus:
+  type-aliases-package: com.zyuer.imagecloud.domain.pojo
+  mapper-locations: classpath*:mapper/*.xml
   configuration:
-    #??????
-    map-underscore-to-camel-case: false
-    # ??????????
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    cache-enabled: false #开启二级缓存
+    map-underscore-to-camel-case: false #下划线转驼峰映射
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #打印sql日志
   global-config:
     db-config:
-      logic-delete-field: isDelete # ????????????
-      logic-delete-value: 1 # ?????????? 1?
-      logic-not-delete-value: 0 # ?????????? 0?
-# ??????
+      id-type: assign_id  #主键id由雪花算法生成
+      logic-delete-field: isDelete
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+      update-strategy: not_null # 只更新分空字段
+
 knife4j:
   enable: true
   openapi:
-    title: "????"
+    title: ImageCloud接口文档
+    description: ImageCloud接口文档
+    email : 3229587344@qq.com
+    concat: zyuer
+    url: https://github.com/Zyuery
     version: 1.0
     group:
       default:

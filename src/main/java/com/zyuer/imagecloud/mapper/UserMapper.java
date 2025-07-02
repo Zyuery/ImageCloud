@@ -1,7 +1,9 @@
 package com.zyuer.imagecloud.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zyuer.imagecloud.domain.pojo.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
 * @author zyuer
@@ -10,7 +12,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @Entity com.zyuer.imagecloud.domain.pojo.User
 */
 public interface UserMapper extends BaseMapper<User> {
-
+//  int countUserIgnoreDeleted(@Param("ew") LambdaQueryWrapper<User> ew)
+    int countUserIgnoreDeleted(@Param("userAccount" ) String userAccount);
 }
 
 

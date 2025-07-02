@@ -1,7 +1,7 @@
 package com.zyuer.imagecloud.handler;
 
-import com.zyuer.imagecloud.domain.vo.BaseResponse;
-import com.zyuer.imagecloud.domain.vo.ResultUtils;
+import com.zyuer.imagecloud.domain.vo.result.BaseResponse;
+import com.zyuer.imagecloud.domain.vo.result.ResultUtils;
 import com.zyuer.imagecloud.exception.BusinessException;
 import com.zyuer.imagecloud.exception.ErrorCode;
 import lombok.extern.slf4j.Slf4j;

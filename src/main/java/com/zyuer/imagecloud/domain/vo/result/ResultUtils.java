@@ -1,4 +1,4 @@
-package com.zyuer.imagecloud.domain.vo;
+package com.zyuer.imagecloud.domain.vo.result;
 
 import com.zyuer.imagecloud.exception.ErrorCode;
 

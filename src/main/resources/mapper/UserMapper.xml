@@ -22,4 +22,13 @@
         id,userAccount,userPassword,userName,userAvatar,userProfile,
         userRole,editTime,createTime,updateTime,isDelete
     </sql>
+
+    <select id="countUserIgnoreDeleted" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM user WHERE  userAccount = #{userAccount}
+    </select>
+
+<!--    <update id="updateUserAvatar">-->
+<!--        UPDATE user-->
+<!--        SET userAvatar = #{userAvatar} ${ew.customSqlSegment}-->
+<!--    </update>-->
 </mapper>
