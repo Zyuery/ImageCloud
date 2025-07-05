@@ -11,7 +11,10 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
-
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
 mybatis-plus:
   type-aliases-package: com.zyuer.imagecloud.domain.pojo
   mapper-locations: classpath*:mapper/*.xml
@@ -41,3 +44,9 @@ knife4j:
         api-rule: package
         api-rule-resources:
           - com.zyuer.imagecloud.controller
+cos:
+  client:
+    host: https://zyuerbucket-1330881518.cos.ap-nanjing.myqcloud.com
+
+    region: ap-nanjing
+    bucket: zyuerbucket-1330881518

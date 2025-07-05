@@ -1,4 +1,4 @@
-package com.zyuer.imagecloud.domain.dto.User;
+package com.zyuer.imagecloud.domain.dto.user;
 
 import lombok.Data;
 import java.io.Serializable;

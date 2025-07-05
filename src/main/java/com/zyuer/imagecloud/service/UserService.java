@@ -1,7 +1,7 @@
 package com.zyuer.imagecloud.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.zyuer.imagecloud.domain.dto.User.UserQueryRequest;
+import com.zyuer.imagecloud.domain.dto.user.UserQueryRequest;
 import com.zyuer.imagecloud.domain.pojo.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zyuer.imagecloud.domain.vo.user.LoginUserVO;
@@ -24,4 +24,5 @@ public interface UserService extends IService<User> {
     UserVO getUserVO(User user);
     List<UserVO> getUserVOList(List<User> userList);
     QueryWrapper<User> getWrapper(UserQueryRequest userQueryRequest);
+    boolean isAdmin(User user);
 }

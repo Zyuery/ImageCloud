@@ -2,10 +2,12 @@ package com.zyuer.imagecloud;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zyuer.imagecloud.domain.pojo.User;
 import com.zyuer.imagecloud.exception.BusinessException;
 import com.zyuer.imagecloud.exception.ErrorCode;
 import com.zyuer.imagecloud.mapper.UserMapper;
+import com.zyuer.imagecloud.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ class ImageCloudApplicationTests {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private UserService userService;
 
 
     @Test
@@ -51,10 +55,20 @@ class ImageCloudApplicationTests {
         }
     }
 
+    @Test
+    void testPage(){
+        Page<User> pages = userService.page(
+               new Page<>(1,2), new QueryWrapper<User>().gt("id",0)
+        );
+        List<User> users = pages.getRecords();
+        users.forEach(System.out::println);
+    }
+
+
 //    @Test
 //    void testUpdateUserAvatar(){
-//        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>()
-//                .eq(User::getUserAccount,"123zyuer");
+//        LambdaQueryWrapper<user> queryWrapper = new LambdaQueryWrapper<user>()
+//                .eq(user::getUserAccount,"123zyuer");
 //        int count = userMapper.updateUserAvatar(queryWrapper,"testAvator");
 //        if(count>0){
 //            log.info(userMapper.selectOne(queryWrapper).toString());

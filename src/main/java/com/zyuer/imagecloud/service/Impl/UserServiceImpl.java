@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zyuer.imagecloud.annotation.AuthCheck;
-import com.zyuer.imagecloud.domain.dto.User.UserQueryRequest;
+import com.zyuer.imagecloud.domain.dto.user.UserQueryRequest;
 import com.zyuer.imagecloud.domain.vo.user.UserVO;
 import com.zyuer.imagecloud.utils.EncryptUtils;
 import com.zyuer.imagecloud.common.UserConstant;
@@ -18,7 +18,6 @@ import com.zyuer.imagecloud.exception.ThrowUtils;
 import com.zyuer.imagecloud.service.UserService;
 import com.zyuer.imagecloud.mapper.UserMapper;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -103,7 +102,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return getLoginUserVO(loginUser);
     }
 
-    //获取登录用户信息（User）
+    //获取登录用户信息（user）
     @Override
     public User getLoginUser(HttpServletRequest request) {
         Object userObj = request.getSession().getAttribute(UserConstant.USER_LOGIN_STATE);
@@ -178,6 +177,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .like(StrUtil.isNotBlank(userName),"userName",userName)
                 .like(StrUtil.isNotBlank(userProfile),"userProfile",userProfile)
                 .orderBy(StrUtil.isNotEmpty(sortField), "ascend".equals(sortOrder),sortField);
+    }
+
+    @Override
+    public boolean isAdmin(User user) {
+        ThrowUtils.throwIf(user==null,ErrorCode.PARAMS_ERROR,"参数为空");
+        return UserConstant.ADMIN_ROLE.equals(user.getUserRole());
     }
 }
 

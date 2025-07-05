@@ -1,7 +1,7 @@
 package com.zyuer.imagecloud.aop;
 
 import com.zyuer.imagecloud.annotation.AuthCheck;
-import com.zyuer.imagecloud.domain.dto.User.UserRoleEnum;
+import com.zyuer.imagecloud.domain.dto.user.UserRoleEnum;
 import com.zyuer.imagecloud.domain.pojo.User;
 import com.zyuer.imagecloud.exception.ErrorCode;
 import com.zyuer.imagecloud.exception.ThrowUtils;
@@ -43,7 +43,7 @@ public class AuthIntercepter {
         );
         ThrowUtils.throwIf(
                 UserRoleEnum.USER.equals(mustRoleEnum)
-                &&!UserRoleEnum.USER.equals(userRoleEnum),
+                &&!(UserRoleEnum.USER.equals(userRoleEnum)||UserRoleEnum.ADMIN.equals(userRoleEnum)),
                 ErrorCode.NO_AUTH_ERROR
         );
         ThrowUtils.throwIf(

@@ -1,4 +1,4 @@
-package com.zyuer.imagecloud.domain.dto.User;
+package com.zyuer.imagecloud.domain.dto.user;
 
 import cn.hutool.core.util.ObjUtil;
 import lombok.Getter;

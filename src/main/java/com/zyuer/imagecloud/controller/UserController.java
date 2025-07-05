@@ -1,10 +1,9 @@
 package com.zyuer.imagecloud.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zyuer.imagecloud.annotation.AuthCheck;
 import com.zyuer.imagecloud.common.UserConstant;
-import com.zyuer.imagecloud.domain.dto.User.*;
+import com.zyuer.imagecloud.domain.dto.user.*;
 import com.zyuer.imagecloud.domain.dto.normal.DeleteRequest;
 import com.zyuer.imagecloud.domain.pojo.User;
 import com.zyuer.imagecloud.domain.vo.result.BaseResponse;
@@ -128,12 +127,12 @@ public class UserController {
         ThrowUtils.throwIf(userQueryRequest == null, ErrorCode.PARAMS_ERROR);
         long pageNow = userQueryRequest.getPageNow();
         long pageSize = userQueryRequest.getPageSize();
-        Page<User> userPage = userService.page(
-                new Page<>(pageNow,pageSize),
+        Page<User> userPages = userService.page(
+                Page.of(pageNow,pageSize),
                 userService.getWrapper(userQueryRequest)
         );
-        Page<UserVO> userVOPage = new Page<>(pageNow,pageSize,userPage.getTotal());
-        List<UserVO> userVOList = userService.getUserVOList(userPage.getRecords());
+        Page<UserVO> userVOPage = new Page<>(pageNow,pageSize,userPages.getTotal());
+        List<UserVO> userVOList = userService.getUserVOList(userPages.getRecords());
         userVOPage.setRecords(userVOList);
         return ResultUtils.success(userVOPage);
     }
