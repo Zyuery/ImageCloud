@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.zyuer.imagecloud.domain.pojo.User;
 import com.zyuer.imagecloud.domain.vo.picture.PictureVO;
 import org.springframework.web.multipart.MultipartFile;
+import com.zyuer.imagecloud.domain.dto.picture.PictureReviewRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -36,4 +37,6 @@ public interface PictureService extends IService<Picture> {
     Page<PictureVO> getPictureVOList(Page<Picture> picturePage);
     void validPicture(Picture picture);
     Page<PictureVO> getPictureVOPage(Page<Picture> picturePage);
+    void doPictureReview(PictureReviewRequest pictureReviewRequest, User loginUser);
+    public void fillReviewParams(Picture picture ,User loginUser);
 }

@@ -21,6 +21,9 @@ public class PictureQueryRequest extends PageRequest implements Serializable {
     private String picFormat;
     private String searchText;
     private Long userId;
+    private Integer reviewStatus;
+    private String reviewMessage;
+    private Long reviewerId;
     private static final long serialVersionUID = 1L;
 }
 

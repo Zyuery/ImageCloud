@@ -30,9 +30,15 @@ public class Picture implements Serializable {
     private Date createTime;
     private Date editTime;
     private Date updateTime;
+    /**
+     * 状态：0-待审核; 1-通过; 2-拒绝
+     */
+    private Integer reviewStatus;
+    private String reviewMessage;
+    private Long reviewerId;
+    private Date reviewTime;
     @TableLogic
     private Integer isDelete;
-
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

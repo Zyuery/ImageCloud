@@ -5,26 +5,20 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zyuer.imagecloud.annotation.AuthCheck;
 import com.zyuer.imagecloud.common.UserConstant;
 import com.zyuer.imagecloud.domain.dto.normal.DeleteRequest;
-import com.zyuer.imagecloud.domain.dto.picture.PictureEditRequest;
-import com.zyuer.imagecloud.domain.dto.picture.PictureQueryRequest;
-import com.zyuer.imagecloud.domain.dto.picture.PictureUpdateRequest;
-import com.zyuer.imagecloud.domain.dto.picture.PictureUploadRequest;
+import com.zyuer.imagecloud.domain.dto.picture.*;
 import com.zyuer.imagecloud.domain.pojo.Picture;
 import com.zyuer.imagecloud.domain.pojo.User;
 import com.zyuer.imagecloud.domain.vo.picture.PictureTagCategory;
 import com.zyuer.imagecloud.domain.vo.picture.PictureVO;
 import com.zyuer.imagecloud.domain.vo.result.BaseResponse;
 import com.zyuer.imagecloud.domain.vo.result.ResultUtils;
-import com.zyuer.imagecloud.exception.BusinessException;
+import com.zyuer.imagecloud.service.PictureService;
 import com.zyuer.imagecloud.exception.ErrorCode;
 import com.zyuer.imagecloud.exception.ThrowUtils;
-import com.zyuer.imagecloud.service.PictureService;
 import com.zyuer.imagecloud.service.UserService;
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
@@ -40,7 +34,6 @@ public class PictureController {
     private UserService userService;
 
     @PostMapping("/upload")
-    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<PictureVO> uploadPicture(
             @RequestParam("file") MultipartFile multipartFile,
             //@ModelAttribute("PictureUploadRequest") 注解自动的装配form-data里的数据都一个对象里
@@ -73,7 +66,8 @@ public class PictureController {
 
     @PostMapping("/update")
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
-    public BaseResponse<Boolean> updatePicture(@RequestBody PictureUpdateRequest pictureUpdateRequest) {
+    public BaseResponse<Boolean> updatePicture(@RequestBody PictureUpdateRequest pictureUpdateRequest,
+                                               HttpServletRequest request) {
         ThrowUtils.throwIf(pictureUpdateRequest == null
                         || pictureUpdateRequest.getId() <= 0,
                 ErrorCode.PARAMS_ERROR);
@@ -88,6 +82,10 @@ public class PictureController {
         long id = pictureUpdateRequest.getId();
         Picture oldPicture = pictureService.getById(id);
         ThrowUtils.throwIf(oldPicture == null, ErrorCode.NOT_FOUND_ERROR);
+
+        User loginUser = userService.getLoginUser(request);
+        pictureService.fillReviewParams(picture, loginUser);
+
         // 操作数据库
         boolean result = pictureService.updateById(picture);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
@@ -131,6 +129,7 @@ public class PictureController {
         long size = pictureQueryRequest.getPageSize();
         // 限制爬虫
         ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
+        pictureQueryRequest.setReviewStatus(PictureReviewStatusEnum.PASS.getValue());
         // 查询数据库
         Page<Picture> picturePage = pictureService.page(new Page<>(current, size),
                 pictureService.getQueryWrapper(pictureQueryRequest));
@@ -139,7 +138,8 @@ public class PictureController {
     }
 
     @PostMapping("/edit")
-    public BaseResponse<Boolean> editPicture(@RequestBody PictureEditRequest pictureEditRequest, HttpServletRequest request) {
+    public BaseResponse<Boolean> editPicture(@RequestBody PictureEditRequest pictureEditRequest,
+                                             HttpServletRequest request) {
         ThrowUtils.throwIf(pictureEditRequest == null
                         || pictureEditRequest.getId() <= 0,
                 ErrorCode.PARAMS_ERROR);
@@ -154,6 +154,7 @@ public class PictureController {
         long id = pictureEditRequest.getId();
         Picture oldPicture = pictureService.getById(id);
         ThrowUtils.throwIf(oldPicture == null, ErrorCode.NOT_FOUND_ERROR);
+        pictureService.fillReviewParams(picture, loginUser);
         // 仅本人或管理员可编辑
         ThrowUtils.throwIf(!oldPicture.getUserId().equals(loginUser.getId())
                         && !userService.isAdmin(loginUser),
@@ -172,5 +173,17 @@ public class PictureController {
         pictureTagCategory.setCategoryList(categoryList);
         return ResultUtils.success(pictureTagCategory);
     }
+
+
+    @PostMapping("/review")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
+    public BaseResponse<Boolean> doPictureReview(@RequestBody PictureReviewRequest pictureReviewRequest,
+                                                 HttpServletRequest request) {
+        ThrowUtils.throwIf(pictureReviewRequest == null, ErrorCode.PARAMS_ERROR);
+        User loginUser = userService.getLoginUser(request);
+        pictureService.doPictureReview(pictureReviewRequest, loginUser);
+        return ResultUtils.success(true);
+    }
+
 
 }
