@@ -13,6 +13,6 @@ public class UploadPictureResult {
     private int picHeight;
     private Double picScale;
     private String picFormat;
-
+    private String thumbnailUrl;
 }
 

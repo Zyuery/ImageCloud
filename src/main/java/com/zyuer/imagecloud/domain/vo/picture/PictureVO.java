@@ -28,6 +28,8 @@ public class PictureVO implements Serializable {
     private Date editTime;
     private Date updateTime;
     private UserVO user;
+    private String thumbnailUrl;
+
     private static final long serialVersionUID = 1L;
 
     public static Picture voToObj(PictureVO pictureVO) {

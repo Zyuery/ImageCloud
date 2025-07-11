@@ -37,6 +37,9 @@ public class Picture implements Serializable {
     private String reviewMessage;
     private Long reviewerId;
     private Date reviewTime;
+
+    private String thumbnailUrl;
+
     @TableLogic
     private Integer isDelete;
     @TableField(exist = false)

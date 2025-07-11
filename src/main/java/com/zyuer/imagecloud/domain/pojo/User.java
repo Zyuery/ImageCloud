@@ -2,19 +2,20 @@ package com.zyuer.imagecloud.domain.pojo;
 
 import com.baomidou.mybatisplus.annotation.*;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@TableName(value ="user")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+@TableName(value = "user")
+public class User implements Serializable {
+    private static final long serialVersionUID = 1L;
     @TableId(type = IdType.ASSIGN_ID)
-    @TableField("id")
     private Long id;
     private String userAccount;
     private String userPassword;
